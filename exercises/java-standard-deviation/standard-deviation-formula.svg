@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="780" viewBox="0 0 1200 780" role="img" aria-label="Mean: x-bar equals one over n times the sum of x sub i for i from 1 to n. Sample standard deviation: s equals the square root of the sum of (x sub i minus x-bar) squared, divided by n minus 1.">
+  <rect width="1200" height="780" rx="24" fill="#ffffff" stroke="#d0d7de" stroke-width="2"/>
+
+  <g font-family="'Helvetica Neue', Arial, sans-serif" fill="#1f2328">
+    <text x="600" y="78" font-size="44" font-weight="700" text-anchor="middle">Standard Deviation</text>
+  </g>
+
+  <g font-family="'Cambria Math', 'STIX Two Math', 'Times New Roman', serif" fill="#1f2328" stroke="none">
+    <!-- (1) Mean -->
+    <text x="120" y="225" font-size="64" font-style="italic">x</text>
+    <line x1="128" y1="174" x2="158" y2="174" stroke="#1f2328" stroke-width="4"/>
+    <text x="180" y="225" font-size="64">=</text>
+    <text x="265" y="195" font-size="52" text-anchor="middle">1</text>
+    <line x1="240" y1="210" x2="290" y2="210" stroke="#1f2328" stroke-width="4"/>
+    <text x="265" y="260" font-size="52" font-style="italic" text-anchor="middle">n</text>
+    <text x="365" y="252" font-size="110" text-anchor="middle">Σ</text>
+    <text x="365" y="150" font-size="32" font-style="italic" text-anchor="middle">n</text>
+    <text x="365" y="298" font-size="32" text-anchor="middle"><tspan font-style="italic">i</tspan> = 1</text>
+    <text x="430" y="225" font-size="64" font-style="italic">x</text>
+    <text x="464" y="242" font-size="36" font-style="italic">i</text>
+
+    <!-- (2) Sample standard deviation -->
+    <text x="120" y="490" font-size="64" font-style="italic">s</text>
+    <text x="180" y="490" font-size="64">=</text>
+    <path d="M 250 500 L 270 488 L 302 578 L 334 352 L 735 352" fill="none" stroke="#1f2328" stroke-width="4" stroke-linejoin="round"/>
+    <text x="385" y="452" font-size="76" text-anchor="middle">Σ</text>
+    <text x="412" y="398" font-size="26" font-style="italic">n</text>
+    <text x="412" y="466" font-size="24"><tspan font-style="italic">i</tspan>=1</text>
+    <text x="458" y="445" font-size="64">(</text>
+    <text x="482" y="445" font-size="64" font-style="italic">x</text>
+    <text x="514" y="460" font-size="34" font-style="italic">i</text>
+    <text x="545" y="445" font-size="64">−</text>
+    <text x="595" y="445" font-size="64" font-style="italic">x</text>
+    <line x1="597" y1="394" x2="627" y2="394" stroke="#1f2328" stroke-width="4"/>
+    <text x="632" y="445" font-size="64">)</text>
+    <text x="658" y="405" font-size="36">2</text>
+    <line x1="345" y1="480" x2="715" y2="480" stroke="#1f2328" stroke-width="4"/>
+    <text x="530" y="548" font-size="56" text-anchor="middle"><tspan font-style="italic">n</tspan> − 1</text>
+  </g>
+
+  <g font-family="'Helvetica Neue', Arial, sans-serif" fill="#57606a" font-size="30">
+    <text x="800" y="215">(1) Mean</text>
+    <text x="800" y="470">(2) Sample standard</text>
+    <text x="800" y="508">deviation</text>
+  </g>
+
+  <line x1="80" y1="620" x2="1120" y2="620" stroke="#d0d7de" stroke-width="2"/>
+
+  <g font-family="'Helvetica Neue', Arial, sans-serif" fill="#1f2328" font-size="30">
+    <text x="120" y="675">where:
+      <tspan font-family="'Times New Roman', serif" font-style="italic" dx="20">n</tspan> = number of values,
+      <tspan font-family="'Times New Roman', serif" font-style="italic" dx="14">x</tspan><tspan font-family="'Times New Roman', serif" font-style="italic" font-size="20" dy="8">i</tspan><tspan dy="-8"> = the i-th value,</tspan>
+    </text>
+    <text x="232" y="725"><tspan font-family="'Times New Roman', serif" font-style="italic">x̄</tspan> = mean of the values (formula 1)</text>
+  </g>
+</svg>

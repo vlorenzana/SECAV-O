@@ -784,3 +784,56 @@ secav:ThreatModelShape
         sh:datatype xsd:string ;
         sh:message "A Threat Model must document at least one identified threat with its STRIDE category and the planned control. An empty threat model does not fulfil the purpose of the ThreatModelingActivity."@en
     ] .
+
+# Learning exercises — a statement must target a competency, state the problem,
+# and declare deliverables and evaluation criteria.
+secav:LearningExerciseShape
+    a sh:NodeShape ;
+    sh:targetClass secav:LearningExercise ;
+    sh:property [
+        sh:path secav:exerciseProblemStatement ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A learning exercise must have exactly one problem statement."@en
+    ] ;
+    sh:property [
+        sh:path secav:exerciseTargetsCompetency ;
+        sh:minCount 1 ;
+        sh:class secav:Competency ;
+        sh:message "A learning exercise must target at least one competency."@en
+    ] ;
+    sh:property [
+        sh:path secav:requiresDeliverable ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A learning exercise must declare at least one deliverable artifact."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasEvaluationCriterion ;
+        sh:minCount 1 ;
+        sh:class secav:QualityCriterion ;
+        sh:message "A learning exercise must declare at least one evaluation criterion."@en
+    ] ;
+    sh:property [
+        sh:path secav:exerciseDocument ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:anyURI ;
+        sh:message "A learning exercise may reference at most one exercise document."@en
+    ] .
+
+# An activity that responds to a learning exercise must produce at least one artifact.
+secav:LearningExerciseResponseShape
+    a sh:NodeShape ;
+    sh:targetSubjectsOf secav:respondsToExercise ;
+    sh:property [
+        sh:path secav:respondsToExercise ;
+        sh:class secav:LearningExercise ;
+        sh:message "secav:respondsToExercise must point to a secav:LearningExercise."@en
+    ] ;
+    sh:property [
+        sh:path secav:produces ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "An activity that responds to a learning exercise must produce at least one artifact."@en
+    ] .

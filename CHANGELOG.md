@@ -6,6 +6,9 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 
+- Learning exercises: `secav:LearningExercise` (subclass of `secav:Artifact`), `secav:CodingCompetency`, object properties `secav:exerciseTargetsCompetency`, `secav:requiresDeliverable`, `secav:hasEvaluationCriterion`, `secav:respondsToExercise`, and datatype properties `secav:exerciseProblemStatement`, `secav:exerciseDocument`.
+- `LearningExerciseShape` and `LearningExerciseResponseShape` — an exercise must state the problem and declare at least one target competency, deliverable, and evaluation criterion; an activity responding to an exercise must produce at least one artifact.
+- `exercises/java-standard-deviation/` — first learning exercise (Java sample standard deviation with chart), with `examples/java-standard-deviation-exercise.ttl` as its ontology instance.
 - `secav:failureCauseDescription` (on `secav:PreMortemReport`) and `secav:threatDescription` (on `secav:ThreatModel`) — dedicated DatatypeProperties replacing the misuse of `secav:findingDescription`, whose domain is `secav:ReviewFinding`.
 - `FMEAFailureModeShape` — requires `secav:failureMode` (min 1) and exactly one `secav:rpnScore` (1–1000) on each FMEA entry.
 

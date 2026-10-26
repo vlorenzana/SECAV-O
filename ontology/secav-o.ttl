@@ -1947,3 +1947,59 @@ secav:failureEffect a owl:DatatypeProperty ;
     rdfs:range xsd:string ;
     rdfs:label "failure effect"@en ;
     rdfs:comment "The observable consequence of a failure mode on the system, subsystem, or end user. Used in FMEA to establish the Severity score and to prioritize which failures most need resilience countermeasures."@en .
+
+# ---------------------------------------------------------------------------
+# Learning Exercises
+# A LearningExercise is a coach-designed problem statement that an engineer
+# solves independently to produce observable evidence of competencies.
+# The statement describes what must be built, never how: it must not contain
+# the solution. The engineer's work on the exercise is an EngineeringActivity
+# that responds to it; its deliverables become WorkProductEvidence for a
+# CompetencyAssessment.
+# ---------------------------------------------------------------------------
+
+secav:CodingCompetency a owl:Class ;
+    rdfs:subClassOf secav:Competency ;
+    rdfs:label "Coding Competency"@en ;
+    rdfs:comment "The ability to translate a specification or mathematical definition into correct, readable, and robust source code, including input handling and error reporting."@en .
+
+secav:LearningExercise a owl:Class ;
+    rdfs:subClassOf secav:Artifact ;
+    rdfs:label "Learning Exercise"@en ;
+    rdfs:comment "A structured problem statement, designed by a coach, that an engineer must solve independently to produce observable evidence of one or more competencies. It states the problem, the domain knowledge required (e.g., a formula), the deliverables, and the evaluation criteria. It must not contain or suggest the solution."@en .
+
+secav:exerciseTargetsCompetency a owl:ObjectProperty ;
+    rdfs:domain secav:LearningExercise ;
+    rdfs:range secav:Competency ;
+    rdfs:label "exercise targets competency"@en ;
+    rdfs:comment "Links a learning exercise to a competency it is designed to elicit evidence of."@en .
+
+secav:requiresDeliverable a owl:ObjectProperty ;
+    rdfs:domain secav:LearningExercise ;
+    rdfs:range secav:Artifact ;
+    rdfs:label "requires deliverable"@en ;
+    rdfs:comment "Links a learning exercise to an artifact the engineer must deliver (e.g., source code, test inputs, a chart, a written report)."@en .
+
+secav:hasEvaluationCriterion a owl:ObjectProperty ;
+    rdfs:domain secav:LearningExercise ;
+    rdfs:range secav:QualityCriterion ;
+    rdfs:label "has evaluation criterion"@en ;
+    rdfs:comment "Links a learning exercise to a criterion used to evaluate the engineer's deliverables."@en .
+
+secav:respondsToExercise a owl:ObjectProperty ;
+    rdfs:domain secav:EngineeringActivity ;
+    rdfs:range secav:LearningExercise ;
+    rdfs:label "responds to exercise"@en ;
+    rdfs:comment "Links the engineering activity an engineer performs to solve a learning exercise to that exercise."@en .
+
+secav:exerciseProblemStatement a owl:DatatypeProperty ;
+    rdfs:domain secav:LearningExercise ;
+    rdfs:range xsd:string ;
+    rdfs:label "exercise problem statement"@en ;
+    rdfs:comment "A short summary of the problem the engineer must solve. States what must be built, not how."@en .
+
+secav:exerciseDocument a owl:DatatypeProperty ;
+    rdfs:domain secav:LearningExercise ;
+    rdfs:range xsd:anyURI ;
+    rdfs:label "exercise document"@en ;
+    rdfs:comment "Location of the full exercise statement handed to the engineer, relative to the repository root or as an absolute URI."@en .

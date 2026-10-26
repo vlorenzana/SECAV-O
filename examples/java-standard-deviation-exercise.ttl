@@ -1,0 +1,93 @@
+@prefix secav: <https://github.com/vlorenzana/software-engineering-coaching-framework/ontology/secav-o#> .
+@prefix ex: <https://example.org/secav/demo#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+# ---------------------------------------------------------------------------
+# Learning exercise — standard deviation in Java
+# Statement: exercises/java-standard-deviation/README.md
+# Satisfies: LearningExerciseShape, LearningExerciseResponseShape
+# ---------------------------------------------------------------------------
+
+ex:JavaStandardDeviationExercise
+    a secav:LearningExercise ;
+    secav:exerciseProblemStatement "Write a Java program that reads n comma-separated numbers from a text file, calculates their sample standard deviation, and shows a chart of the result." ;
+    secav:exerciseDocument "exercises/java-standard-deviation/README.md"^^xsd:anyURI ;
+    secav:exerciseTargetsCompetency ex:CodingCompetency01, ex:TestingCompetency01 ;
+    secav:requiresDeliverable
+        ex:StdDevSourceCode,
+        ex:StdDevTestInputs,
+        ex:StdDevChart,
+        ex:StdDevWriteUp ;
+    secav:hasEvaluationCriterion
+        ex:StdDevCriterionCorrectness,
+        ex:StdDevCriterionRobustness,
+        ex:StdDevCriterionVisualization,
+        ex:StdDevCriterionCodeQuality,
+        ex:StdDevCriterionVerification,
+        ex:StdDevCriterionCommunication .
+
+ex:CodingCompetency01 a secav:CodingCompetency .
+ex:TestingCompetency01 a secav:TestingCompetency .
+
+# Deliverables
+
+ex:StdDevSourceCode
+    a secav:SourceCodeArtifact ;
+    rdfs:label "Java source code, organized and readable" .
+
+ex:StdDevTestInputs
+    a secav:Artifact ;
+    rdfs:label "Input files used for testing: at least one valid file and others that exercise invalid situations" .
+
+ex:StdDevChart
+    a secav:Artifact ;
+    rdfs:label "Image of the chart produced for a valid input" .
+
+ex:StdDevWriteUp
+    a secav:Artifact ;
+    rdfs:label "One-page write-up: verification approach, invalid situations handled, defects found and fixed" .
+
+# Evaluation criteria
+
+ex:StdDevCriterionCorrectness
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Correctness: the results match the sample standard deviation formula for every valid input, including the example (n = 20, mean = 16.2540, s = 4.7112), and are rounded to 4 decimal places." .
+
+ex:StdDevCriterionRobustness
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Robustness: invalid input is detected and reported clearly." .
+
+ex:StdDevCriterionVisualization
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Visualization: the chart communicates the mean and the dispersion of the data." .
+
+ex:StdDevCriterionCodeQuality
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Code quality: structure, naming, readability, and separation of responsibilities." .
+
+ex:StdDevCriterionVerification
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Verification: evidence that the engineer tested the program and how." .
+
+ex:StdDevCriterionCommunication
+    a secav:AcceptanceCriterion ;
+    secav:criterionStatement "Communication: clarity and honesty of the write-up." .
+
+# ---------------------------------------------------------------------------
+# Illustrative response — an engineer works on the exercise.
+# Fictional; shows how an attempt links back to the exercise.
+# ---------------------------------------------------------------------------
+
+ex:EngineerB
+    a secav:Engineer ;
+    secav:performs ex:StdDevImplementation01 .
+
+ex:StdDevImplementation01
+    a secav:CodeImplementation ;
+    secav:respondsToExercise ex:JavaStandardDeviationExercise ;
+    secav:requiresCompetency ex:CodingCompetency01 ;
+    secav:produces ex:StdDevSourceCode01 ;
+    secav:assessedAgainst ex:StdDevCriterionCorrectness, ex:StdDevCriterionRobustness .
+
+ex:StdDevSourceCode01 a secav:SourceCodeArtifact .

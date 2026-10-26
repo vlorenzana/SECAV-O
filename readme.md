@@ -499,6 +499,8 @@ The SECAV-O core ontology files that this extension builds on:
 - `ontology/secav-o.ttl` — core ontology: engineering activities, artifacts, competencies, evidence, measurement, AI assistance, human validation, assessment, and coaching concepts.
 - `validation/secav-o.shacl.ttl` — SHACL constraints for the core ontology.
 - `examples/design-review.ttl` — worked example: AI-assisted design review instance.
+- `examples/java-standard-deviation-exercise.ttl` — worked example: `secav:LearningExercise` instance for the Java standard deviation exercise.
+- `exercises/java-standard-deviation/README.md` — learning exercise statement handed to the engineer (problem and formula only; no solution).
 
 ## Claim boundary
 
