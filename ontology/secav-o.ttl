@@ -1052,7 +1052,7 @@ secav:riskImpact a owl:DatatypeProperty ;
     rdfs:domain secav:ProjectRisk ;
     rdfs:range xsd:integer ;
     rdfs:label "risk impact"@en ;
-    rdfs:comment "Impact score 1–5: 1=Insignificant, 2=Minor (<5%), 3=Moderate (5-15% sprint reajustment), 4=Major (15-30% milestone delay), 5=Catastrophic (project viability at risk)."@en .
+    rdfs:comment "Impact score 1–5: 1=Insignificant, 2=Minor (<5%), 3=Moderate (5-15% sprint readjustment), 4=Major (15-30% milestone delay), 5=Catastrophic (project viability at risk)."@en .
 
 secav:riskScore a owl:DatatypeProperty ;
     rdfs:domain secav:ProjectRisk ;
@@ -1326,6 +1326,7 @@ secav:UnnecessaryRewalkthrough a owl:Class ;
     rdfs:comment "Scheduling a full walkthrough to verify minor fixes (e.g., renaming a variable) that could be confirmed via async review."@en .
 
 secav:WalkthroughRole a owl:Class ;
+    rdfs:subClassOf secav:ReviewSessionRole ;
     rdfs:label "Walkthrough Role"@en ;
     rdfs:comment "A designated role in a code walkthrough session: Author/Presenter, Moderator, or Scribe."@en .
 
@@ -1390,6 +1391,7 @@ secav:UndocumentedDesignDecision a owl:Class ;
     rdfs:comment "Closing a design review without recording which alternatives were approved or discarded and the rationale — future reviewers lack context for incremental decisions."@en .
 
 secav:DesignReviewRole a owl:Class ;
+    rdfs:subClassOf secav:ReviewSessionRole ;
     rdfs:label "Design Review Role"@en ;
     rdfs:comment "A designated role in a design review session: Designer (UX/visual), Product Manager (business value/MVP scope), Engineer/Dev (technical feasibility), or Stakeholder (brand and strategy alignment)."@en .
 
@@ -2003,3 +2005,33 @@ secav:exerciseDocument a owl:DatatypeProperty ;
     rdfs:range xsd:anyURI ;
     rdfs:label "exercise document"@en ;
     rdfs:comment "Location of the full exercise statement handed to the engineer, relative to the repository root or as an absolute URI."@en .
+
+# ---------------------------------------------------------------------------
+# Review Session Roles
+# Records who plays which role in a specific review session. Each role node
+# is one assignment: it belongs to one session, names the role, and points to
+# the stakeholder who plays it. WalkthroughRole and DesignReviewRole specialize
+# this class.
+# ---------------------------------------------------------------------------
+
+secav:ReviewSessionRole a owl:Class ;
+    rdfs:label "Review Session Role"@en ;
+    rdfs:comment "The assignment of a designated role (e.g., Moderator, Scribe, Author/Presenter) to a stakeholder within one specific review session."@en .
+
+secav:hasParticipantRole a owl:ObjectProperty ;
+    rdfs:domain secav:ReviewActivity ;
+    rdfs:range secav:ReviewSessionRole ;
+    rdfs:label "has participant role"@en ;
+    rdfs:comment "Links a review session to a role assigned in that session."@en .
+
+secav:rolePlayedBy a owl:ObjectProperty ;
+    rdfs:domain secav:ReviewSessionRole ;
+    rdfs:range secav:Stakeholder ;
+    rdfs:label "role played by"@en ;
+    rdfs:comment "The stakeholder who plays the role in the session."@en .
+
+secav:roleName a owl:DatatypeProperty ;
+    rdfs:domain secav:ReviewSessionRole ;
+    rdfs:range xsd:string ;
+    rdfs:label "role name"@en ;
+    rdfs:comment "The name of the role as defined by the session type. Walkthrough: 'Author/Presenter', 'Moderator', 'Scribe'. Design review: 'Designer', 'Product Manager', 'Engineer/Dev', 'Stakeholder'."@en .

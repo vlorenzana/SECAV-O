@@ -4,7 +4,8 @@
 
 # ---------------------------------------------------------------------------
 # Valid scenario — design review with direct coach sign-off
-# Satisfies: ReviewActivityShape, ReviewCertifiedShape, CoachReviewSignOffShape
+# Satisfies: ReviewActivityShape, ReviewCertifiedShape, CoachReviewSignOffShape,
+#            ReviewSessionRoleShape
 # ---------------------------------------------------------------------------
 
 ex:EngineerA
@@ -35,7 +36,20 @@ ex:DesignReview01
     secav:evaluates ex:DesignArtifact01 ;
     secav:produces ex:ReviewRecord01 ;
     secav:producesReviewFinding ex:Finding01 ;
+    secav:hasParticipantRole ex:Review01Designer, ex:Review01Engineer ;
     secav:hasSignOff ex:SignOff01 .
+
+ex:Review01Designer
+    a secav:DesignReviewRole ;
+    secav:roleName "Designer" ;
+    secav:rolePlayedBy ex:EngineerA .
+
+ex:Review01Engineer
+    a secav:DesignReviewRole ;
+    secav:roleName "Engineer/Dev" ;
+    secav:rolePlayedBy ex:EngineerC .
+
+ex:EngineerC a secav:Engineer .
 
 ex:Finding01
     a secav:ReviewFinding ;

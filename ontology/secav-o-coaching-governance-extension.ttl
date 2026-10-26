@@ -19,6 +19,7 @@
     a owl:Ontology ;
     owl:imports <https://github.com/vlorenzana/software-engineering-coaching-framework/ontology/secav-o> ;
     rdfs:label "SECAV-O Coaching Governance Extension"@en ;
+  owl:versionInfo "0.3.0" ;
     rdfs:comment "Extends the SECAV-O core model with team inception/launch coaching, member preparation and onboarding, annual/sprint coaching planning, risk governance, institutional alignment, ethics, measurement, retrospectives and longitudinal competency growth."@en .
 
 ### Core-aligned planning classes
@@ -43,7 +44,8 @@ secavo:UnitTestObservation a owl:Class ; rdfs:label "Unit Test Observation"@en ;
 
 ### Governance classes
 secavo:InstitutionalObjective a owl:Class ; rdfs:label "Institutional Objective"@en .
-secavo:Risk a owl:Class ; rdfs:label "Risk"@en .
+secavo:Risk a owl:Class ; rdfs:label "Coaching Programme Risk"@en ;
+  rdfs:comment "A risk to the coaching programme itself (e.g., engagement, sponsorship, coach availability). Intentionally distinct from secav:ProjectRisk, which models software project risks."@en .
 secavo:CorrectiveAction a owl:Class ; rdfs:label "Corrective / Contingency Action"@en .
 secavo:CoachEthicsCode a owl:Class ; rdfs:label "Coach Ethics Code"@en .
 secavo:EthicsAcknowledgement a owl:Class ; rdfs:label "Coach Ethics Acknowledgement"@en ; rdfs:subClassOf secav:Evidence .
@@ -185,7 +187,8 @@ secavo:riskStatus a owl:DatatypeProperty ;
   rdfs:label "risk status"@en .
 secavo:riskOwner a owl:ObjectProperty ;
   rdfs:domain secavo:Risk ; rdfs:range secav:Stakeholder ;
-  rdfs:label "risk owner"@en .
+  rdfs:label "risk owner"@en ;
+  rdfs:comment "The stakeholder responsible for a coaching programme risk. Intentionally distinct from secav:riskOwner, whose domain is secav:ProjectRisk."@en .
 secavo:retrospectiveDate a owl:DatatypeProperty ;
   rdfs:domain secavo:SprintRetrospective ; rdfs:range xsd:date ;
   rdfs:label "retrospective date"@en .

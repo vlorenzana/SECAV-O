@@ -837,3 +837,22 @@ secav:LearningExerciseResponseShape
         sh:class secav:Artifact ;
         sh:message "An activity that responds to a learning exercise must produce at least one artifact."@en
     ] .
+
+# Review session roles — each assignment names the role and the person playing it.
+secav:ReviewSessionRoleShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ReviewSessionRole ;
+    sh:property [
+        sh:path secav:roleName ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A review session role must have exactly one role name."@en
+    ] ;
+    sh:property [
+        sh:path secav:rolePlayedBy ;
+        sh:minCount 1 ;
+        sh:maxCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:message "A review session role must identify exactly one stakeholder who plays it."@en
+    ] .

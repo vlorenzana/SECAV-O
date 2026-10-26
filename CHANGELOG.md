@@ -9,17 +9,21 @@ All notable changes to this project will be documented in this file.
 - Learning exercises: `secav:LearningExercise` (subclass of `secav:Artifact`), `secav:CodingCompetency`, object properties `secav:exerciseTargetsCompetency`, `secav:requiresDeliverable`, `secav:hasEvaluationCriterion`, `secav:respondsToExercise`, and datatype properties `secav:exerciseProblemStatement`, `secav:exerciseDocument`.
 - `LearningExerciseShape` and `LearningExerciseResponseShape` — an exercise must state the problem and declare at least one target competency, deliverable, and evaluation criterion; an activity responding to an exercise must produce at least one artifact.
 - `exercises/java-standard-deviation/` — first learning exercise (Java sample standard deviation with chart), with `examples/java-standard-deviation-exercise.ttl` as its ontology instance.
+- Review session roles: `secav:ReviewSessionRole` (new superclass of `secav:WalkthroughRole` and `secav:DesignReviewRole`), `secav:hasParticipantRole`, `secav:rolePlayedBy`, `secav:roleName`, and `ReviewSessionRoleShape`. The role classes were previously declared but could not be linked to a session or a person. `examples/design-review.ttl` now records two roles.
+- `owl:versionInfo "0.3.0"` on the coaching governance extension.
 - `secav:failureCauseDescription` (on `secav:PreMortemReport`) and `secav:threatDescription` (on `secav:ThreatModel`) — dedicated DatatypeProperties replacing the misuse of `secav:findingDescription`, whose domain is `secav:ReviewFinding`.
 - `FMEAFailureModeShape` — requires `secav:failureMode` (min 1) and exactly one `secav:rpnScore` (1–1000) on each FMEA entry.
 
 ### Changed
 
+- `secavo:Risk` is now labelled "Coaching Programme Risk" and documents that it is distinct from `secav:ProjectRisk`; `secavo:riskOwner` documents that it is distinct from `secav:riskOwner`.
 - `FMEARegisterShape` now requires at least one `secav:hasFMEAEntry` → `secav:FMEAFailureMode` instead of `failureMode`/`rpnScore` on the register itself (their domain is `secav:FMEAFailureMode`; under RDFS inference every register was being typed as a failure mode).
 - `PreMortemReportShape` and `ThreatModelShape` now require `secav:failureCauseDescription` and `secav:threatDescription` respectively (previously, inference typed these artifacts as `secav:ReviewFinding`).
 - Renamed `secav:ReviewRiskLevel` to `secav:reviewRiskLevel` (lowerCamelCase for properties).
 
 ### Fixed
 
+- Typo in `secav:riskImpact` comment: "reajustment" → "readjustment".
 - `RiskShape` referenced the undeclared class `secavo:PreventiveAction`; corrected to `secav:PreventiveAction`.
 - `examples/design-review.ttl` now declares `secav:designMaturityLevel` on both design reviews and conforms to the SHACL shapes.
 - Documentation references to non-existent terms: `secavo:PreventiveAction` → `secav:PreventiveAction`; `secavo:ReviewObservation` → `secavo:ReviewMeasurementObservation`; `secavo:InstitutionalAlignment` → `secavo:InstitutionalObjective` / `secavo:alignsWithInstitutionalObjective`; `secav:Risk`/`secav:hasRisk` in the AI-assisted review triage replaced by `secav:reviewRiskLevel`; `ReviewEscapeObservation` superclass corrected to `secav:DefectRecord`.
