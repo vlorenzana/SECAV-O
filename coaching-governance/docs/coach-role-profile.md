@@ -150,11 +150,11 @@ This domain includes observing and coaching the team leader's facilitation behav
 | Specialized instruction | `secav:CoachingIntervention`; `secavo:ImprovementAction` |
 | Design promotion | `secav:ReviewActivity` (design); `secav:ReviewFinding`; `secavo:QualityPlanningConcern` |
 | Process improvement | `secavo:ImprovementAction`; `secavo:AnnualCoachingPlan`; `secavo:SprintPlan` |
-| Quality planning and risk management | `secavo:Risk`; `secavo:PreventiveAction`; `secavo:CorrectiveAction`; `secavo:PlanningDecision` |
+| Quality planning and risk management | `secavo:Risk`; `secav:PreventiveAction`; `secavo:CorrectiveAction`; `secavo:PlanningDecision` |
 | Metrics and success criteria | `secav:Measurement`; `secav:AcceptanceCriterion`; `secavo:CoachingObjective` |
 | Architecture quality support | `secav:ReviewActivity` (architectural); `secav:Artifact`; `secav:AcceptanceCriterion` |
 | AI adoption governance | `secav:AISystem`; `secav:HumanValidationActivity`; `secavo:QualityPlanningConcern` |
-| Audit and organizational collaboration | `secavo:GovernanceDecision`; `secavo:InstitutionalAlignment` |
+| Audit and organizational collaboration | `secavo:GovernanceDecision`; `secavo:InstitutionalObjective`; `secavo:alignsWithInstitutionalObjective` |
 | Facilitation and leadership support | `secav:CoachingIntervention`; `secav:Evidence`; `secavo:ImprovementAction` |
 
 ---

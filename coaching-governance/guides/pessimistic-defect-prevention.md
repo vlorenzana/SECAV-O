@@ -133,8 +133,11 @@ Applying these techniques shifts quality from a reactive detection activity (QA 
 | Threat Modeling (STRIDE) | `secav:ThreatModelingActivity` | Subclass of `secav:DefectPreventionActivity`; output: `secav:ThreatModel` |
 | Chaos Engineering | `secav:ChaosEngineeringActivity` | Subclass of `secav:DefectPreventionActivity` and `secav:TestingActivity` |
 | Pre-Mortem output | `secav:PreMortemReport` | Subclass of `secav:Artifact`; feeds `secav:RiskRegister` |
-| FMEA table | `secav:FMEARegister` | Subclass of `secav:Artifact`; contains RPN scores |
+| FMEA table | `secav:FMEARegister` | Subclass of `secav:Artifact`; contains `secav:FMEAFailureMode` entries via `secav:hasFMEAEntry` |
+| FMEA entry | `secav:FMEAFailureMode` | One failure mode with its S, O, D and RPN scores |
+| Pre-Mortem failure cause | `secav:failureCauseDescription` | DatatypeProperty `xsd:string` on `secav:PreMortemReport`; one value per cause |
 | Threat model document | `secav:ThreatModel` | Subclass of `secav:Artifact` |
+| Identified threat | `secav:threatDescription` | DatatypeProperty `xsd:string` on `secav:ThreatModel`; one value per threat, with STRIDE category and planned control |
 | RPN score (S × O × D) | `secav:rpnScore` | DatatypeProperty `xsd:integer` on FMEA entries |
 | FMEA severity component | `secav:fmeaSeverity` | DatatypeProperty `xsd:integer` (1–10) |
 | FMEA occurrence component | `secav:fmeaOccurrence` | DatatypeProperty `xsd:integer` (1–10) |

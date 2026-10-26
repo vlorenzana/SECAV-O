@@ -134,7 +134,7 @@ The following framework concepts are directly relevant to incremental adoption:
 | Feasibility test (PoC) | `secav:Evidence` — can it be collected? `secav:AcceptanceCriterion` — can it be evaluated? |
 | End-to-end tracer | Full chain: `secav:EngineeringActivity` → `secav:Artifact` → `secav:Evidence` → `secav:CompetencyAssessment` → `secav:CoachingIntervention` |
 | Short feedback loop | `secavo:CoachingSprint` + `secavo:SprintRetrospective` |
-| Risk of adoption failure | `secavo:Risk` + `secavo:PreventiveAction` + `secavo:CorrectiveAction` |
+| Risk of adoption failure | `secavo:Risk` + `secav:PreventiveAction` + `secavo:CorrectiveAction` |
 | Evidence of adoption progress | `secav:WorkProductEvidence`, `secav:ReviewFinding`, `secav:Measurement` |
 | Coach calibration | `secav:CompetencyAssessment` applied consistently across coaches |
 | Pivot decision | `secavo:ImprovementAction` (subclass of `secav:CoachingIntervention`) |

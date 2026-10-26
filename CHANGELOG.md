@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+
+- `secav:failureCauseDescription` (on `secav:PreMortemReport`) and `secav:threatDescription` (on `secav:ThreatModel`) — dedicated DatatypeProperties replacing the misuse of `secav:findingDescription`, whose domain is `secav:ReviewFinding`.
+- `FMEAFailureModeShape` — requires `secav:failureMode` (min 1) and exactly one `secav:rpnScore` (1–1000) on each FMEA entry.
+
+### Changed
+
+- `FMEARegisterShape` now requires at least one `secav:hasFMEAEntry` → `secav:FMEAFailureMode` instead of `failureMode`/`rpnScore` on the register itself (their domain is `secav:FMEAFailureMode`; under RDFS inference every register was being typed as a failure mode).
+- `PreMortemReportShape` and `ThreatModelShape` now require `secav:failureCauseDescription` and `secav:threatDescription` respectively (previously, inference typed these artifacts as `secav:ReviewFinding`).
+- Renamed `secav:ReviewRiskLevel` to `secav:reviewRiskLevel` (lowerCamelCase for properties).
+
+### Fixed
+
+- `RiskShape` referenced the undeclared class `secavo:PreventiveAction`; corrected to `secav:PreventiveAction`.
+- `examples/design-review.ttl` now declares `secav:designMaturityLevel` on both design reviews and conforms to the SHACL shapes.
+- Documentation references to non-existent terms: `secavo:PreventiveAction` → `secav:PreventiveAction`; `secavo:ReviewObservation` → `secavo:ReviewMeasurementObservation`; `secavo:InstitutionalAlignment` → `secavo:InstitutionalObjective` / `secavo:alignsWithInstitutionalObjective`; `secav:Risk`/`secav:hasRisk` in the AI-assisted review triage replaced by `secav:reviewRiskLevel`; `ReviewEscapeObservation` superclass corrected to `secav:DefectRecord`.
+- `alignment-matrix.csv` row for review measurement evidence now names `ReviewMeasurementObservation`.
+- Ontology comments: translated Spanish source titles to English; replaced stale line-number references; `secav:PeerReview` comment no longer claims subclasses that are not asserted.
+
 ## [0.3.0] - 2026-10-22
 
 ### Added

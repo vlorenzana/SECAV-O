@@ -1928,6 +1928,20 @@ secav:failureMode a owl:DatatypeProperty ;
     rdfs:label "failure mode"@en ;
     rdfs:comment "Description of the specific way in which a component can fail (the 'what could go wrong' statement in FMEA). Each component may have multiple failure modes, each analyzed independently."@en .
 
+# § Pre-Mortem and Threat Model datatype properties
+
+secav:failureCauseDescription a owl:DatatypeProperty ;
+    rdfs:domain secav:PreMortemReport ;
+    rdfs:range xsd:string ;
+    rdfs:label "failure cause description"@en ;
+    rdfs:comment "A hypothetical cause of failure recorded in a Pre-Mortem Report. Causes are collected independently from each participant, then grouped and prioritized. One value per cause — list multiple with repeated properties."@en .
+
+secav:threatDescription a owl:DatatypeProperty ;
+    rdfs:domain secav:ThreatModel ;
+    rdfs:range xsd:string ;
+    rdfs:label "threat description"@en ;
+    rdfs:comment "An identified threat in a Threat Model, stated with its STRIDE category and the planned control. One value per threat — list multiple with repeated properties."@en .
+
 secav:failureEffect a owl:DatatypeProperty ;
     rdfs:domain secav:FMEAFailureMode ;
     rdfs:range xsd:string ;

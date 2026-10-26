@@ -224,13 +224,13 @@ Evidence that the configuration was applied is recorded as a `secav:ReviewObserv
 
 ### 6.4 Risk-based triage
 
-The risk triage table (section 3.4) classifies PRs before routing. Each classification is a `secav:Risk` instance attached to the `secav:EngineeringActivity` (the PR) via `secav:hasRisk`.
+The risk triage table (section 3.4) classifies PRs before routing. Each classification is recorded as a `secav:reviewRiskLevel` value on the `secav:EngineeringActivity` (the PR).
 
 | Concept | SECAV-O term |
 |---|---|
 | Risk level assigned to a PR | `secav:reviewRiskLevel` (DataProperty on `secav:EngineeringActivity`; values: `Routine`, `Attention`, `SecurityCritical`) |
 | Mandatory human review gate | `secav:requiresHumanValidation` (already defined; triggered when `reviewRiskLevel = SecurityCritical`) |
-| False negative — high-risk PR cleared at lower tier | `secav:ReviewEscapeObservation` (subclass of `secav:DefectObservation` → `secav:MeasurementObservation`) |
+| False negative — high-risk PR cleared at lower tier | `secav:ReviewEscapeObservation` (subclass of `secav:DefectRecord` → `secav:Evidence`) |
 
 ### 6.5 Review pipeline stages
 

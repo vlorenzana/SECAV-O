@@ -171,7 +171,7 @@ The coach completes this list at the end of each sprint or observation cycle. It
 | Plan adjustment for disagreement | `secavo:ImprovementAction`, `secavo:PlanningDecision` |
 | Formal escalation of disagreement | `secavo:GovernanceDecision`; documented in `secavo:SprintRetrospective` |
 | Risks identified with the team | `secavo:Risk` in `secavo:SprintRetrospective` |
-| Preventive actions proposed by the team | `secavo:PreventiveAction` |
+| Preventive actions proposed by the team | `secav:PreventiveAction` |
 | Corrective actions when a risk materializes | `secavo:CorrectiveAction` |
 
 ---

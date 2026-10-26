@@ -395,7 +395,7 @@ A metric that counts the number of defects recorded per module or component in a
 
 The percentage of defects detected in code review or formal inspection activities relative to the total defects recorded in the period. A low value indicates that reviews are not capturing defects before they escape to later phases.
 
-**Associated SECAV-O term:** `secavo:Metric`, `secavo:ReviewObservation`
+**Associated SECAV-O term:** `secavo:Metric`, `secavo:ReviewMeasurementObservation`
 
 ---
 
@@ -478,4 +478,4 @@ A predefined action executed when a risk materializes. Examples: change the spri
 
 A predefined action to reduce the probability that a risk occurs. Examples: clarify acceptance criteria, schedule peer reviews, provide training, increase inspection frequency in high-risk modules.
 
-**Associated SECAV-O term:** `secavo:PreventiveAction`
+**Associated SECAV-O term:** `secav:PreventiveAction`

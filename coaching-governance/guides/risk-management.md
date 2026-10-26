@@ -19,7 +19,7 @@ Each `secavo:Risk` should record:
 | Probability of occurrence | `secavo:riskProbability` | Qualitative or decimal value |
 | Impact if it occurs | `secavo:riskImpact` | Qualitative or decimal value |
 | Overall priority / exposure | — | Derived from probability × impact |
-| Preventive action(s) | `secavo:hasPreventiveAction` → `secavo:PreventiveAction` | Actions to reduce probability |
+| Preventive action(s) | `secavo:hasPreventiveAction` → `secav:PreventiveAction` | Actions to reduce probability |
 | Corrective / contingency action(s) | `secavo:hasCorrectiveAction` → `secavo:CorrectiveAction` | Actions if risk materializes |
 | Risk owner | `secavo:riskOwner` | Person responsible for monitoring and actions |
 | Related coaching or institutional objective | `secavo:riskRelatedToObjective` → `secavo:CoachingObjective` | Traceability to the objective at risk |
@@ -53,7 +53,7 @@ The framework may optionally use numeric scoring, but it does not prescribe a un
 
 ## Preventive and corrective actions
 
-**Preventive actions** (`secavo:PreventiveAction`) reduce the probability that a risk occurs. They are linked to the risk via `secavo:hasPreventiveAction`. Examples: clarifying `secav:AcceptanceCriterion`, scheduling peer reviews, providing training before a new activity, increasing `secav:ReviewActivity` frequency, or obtaining needed access early.
+**Preventive actions** (`secav:PreventiveAction`) reduce the probability that a risk occurs. They are linked to the risk via `secavo:hasPreventiveAction`. Examples: clarifying `secav:AcceptanceCriterion`, scheduling peer reviews, providing training before a new activity, increasing `secav:ReviewActivity` frequency, or obtaining needed access early.
 
 **Corrective / contingency actions** (`secavo:CorrectiveAction`) define what to do if the risk materializes. Linked via `secavo:hasCorrectiveAction`. Examples: changing the sprint objective, adding an independent reviewer (`secav:HumanValidationActivity`), introducing an additional `secav:TestingActivity`, escalating a dependency, or revising the baseline.
 
@@ -67,7 +67,7 @@ Every `secavo:SprintRetrospective` should answer:
 
 1. Which `secavo:Risk` instances were reviewed? (via `secavo:reviewedInRetrospective`)
 2. Did `secavo:riskProbability` or `secavo:riskImpact` change?
-3. Which `secavo:PreventiveAction` instances were completed?
+3. Which `secav:PreventiveAction` instances were completed?
 4. Did any risk materialize? Update `secavo:riskStatus`.
 5. Were `secavo:CorrectiveAction` instances activated?
 6. Were new risks discovered? Add them via `secavo:hasRisk` or `secavo:sprintHasRisk`.
@@ -98,7 +98,7 @@ Every `secavo:SprintRetrospective` should answer:
 | Risk | `secavo:Risk` | governance extension |
 | Annual plan holds risks | `secavo:hasRisk` (AnnualCoachingPlan → Risk) | governance extension |
 | Sprint holds risks | `secavo:sprintHasRisk` (CoachingSprint → Risk) | governance extension |
-| Preventive action | `secavo:PreventiveAction` | governance extension |
+| Preventive action | `secav:PreventiveAction` | core ontology (linked from the extension via `secavo:hasPreventiveAction`) |
 | Corrective action | `secavo:CorrectiveAction` | governance extension |
 | Link risk → preventive action | `secavo:hasPreventiveAction` | governance extension |
 | Link risk → corrective action | `secavo:hasCorrectiveAction` | governance extension |

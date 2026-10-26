@@ -39,7 +39,7 @@ It is recommended that at least one of the objectives agreed with management be 
 | Quality objective | SECAV-O term |
 |---|---|
 | Production defect rate below a threshold | `secavo:DefectObservation` + threshold in `secavo:Metric` |
-| Percentage of changes covered by code review | `secavo:ReviewObservation` + threshold in `secavo:Metric` |
+| Percentage of changes covered by code review | `secavo:ReviewMeasurementObservation` + threshold in `secavo:Metric` |
 | Percentage of defects detected in review (vs. in production) | `secavo:DefectObservation` by phase (`templates/defect-log.csv`) |
 | Mean resolution time for critical defects | `secavo:Metric` of time; observed in `secavo:MeasurementObservation` |
 
@@ -105,7 +105,7 @@ The coach is not a spectator in this meeting. Their specific responsibilities ar
 | Alignment coaching objective ↔ institutional | `secavo:alignsWithInstitutionalObjective` |
 | Success metric | `secavo:Metric` |
 | Defect measurement as quality objective | `secavo:DefectObservation` (subclass of `secavo:MeasurementObservation`) |
-| Code review measurement | `secavo:ReviewObservation` (subclass of `secavo:MeasurementObservation`) |
+| Code review measurement | `secavo:ReviewMeasurementObservation` (subclass of `secavo:MeasurementObservation`) |
 | Individual competency baseline | `secav:CompetencyAssessment` |
 | Formal concern if objectives are diluted | `secavo:QualityPlanningConcern` |
 | Updated coaching plan | `secavo:AnnualCoachingPlan` |
