@@ -1,0 +1,772 @@
+@prefix secav: <https://github.com/vlorenzana/software-engineering-coaching-framework/ontology/secav-o#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+# Initial governance/data-quality shapes.
+# These constraints validate RDF data structure. They do not claim empirical
+# validation of the coaching methodology.
+
+secav:EngineeringActivityShape
+    a sh:NodeShape ;
+    sh:targetClass secav:EngineeringActivity ;
+    sh:property [
+        sh:path secav:requiresCompetency ;
+        sh:minCount 1 ;
+        sh:class secav:Competency ;
+        sh:message "An engineering activity should identify at least one required competency."@en
+    ] .
+
+# Reusable certification constraint — allows either direct sign-off (coach present)
+# or remote endorsement (designated observer attended; coach reviewed the report).
+# Reference with sh:node in any review shape that requires certification.
+# sh:xone enforces mutual exclusivity: the session was either directly witnessed
+# (CoachReviewSignOff) or endorsed remotely (CoachRemoteEndorsement) — never both.
+secav:ReviewCertifiedShape
+    a sh:NodeShape ;
+    sh:xone (
+        [
+            sh:property [
+                sh:path secav:hasSignOff ;
+                sh:minCount 1 ;
+                sh:class secav:CoachReviewSignOff
+            ]
+        ]
+        [
+            sh:property [
+                sh:path secav:hasRemoteEndorsement ;
+                sh:minCount 1 ;
+                sh:class secav:CoachRemoteEndorsement
+            ]
+        ]
+    ) ;
+    sh:message "A review activity must be certified by exactly one mechanism: a direct coach sign-off (secav:CoachReviewSignOff, coach personally present) or a remote endorsement (secav:CoachRemoteEndorsement, designated observer attended and coach reviewed their ObserverReport). Both simultaneously is invalid — Principles 16 and 18."@en .
+
+secav:ReviewActivityShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ReviewActivity ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A review activity should identify the artifact it evaluates."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "Every peer review, walkthrough, or inspection must record at least one finding — including an explicit 'no defects found' record when the artifact is clean."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasSignOff ;
+        sh:maxCount 1 ;
+        sh:message "A review activity can have at most one direct coach sign-off per session — multiple sign-offs on the same session are invalid."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasRemoteEndorsement ;
+        sh:maxCount 1 ;
+        sh:message "A review activity can have at most one remote endorsement per session — multiple endorsements on the same session are invalid."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:CoachReviewSignOffShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachReviewSignOff ;
+    sh:property [
+        sh:path secav:signOffStatement ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A coach review sign-off must include a statement confirming the process was conducted acceptably."@en
+    ] ;
+    sh:property [
+        sh:path secav:signOffDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "A coach review sign-off must record the date of approval."@en
+    ] .
+
+secav:CoachRemoteEndorsementShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachRemoteEndorsement ;
+    sh:property [
+        sh:path secav:remoteEndorsementReason ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A remote endorsement must document why the coach was absent and why remote endorsement is appropriate."@en
+    ] ;
+    sh:property [
+        sh:path secav:remoteEndorsementDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "A remote endorsement must record the date on which the coach reviewed the observer's report."@en
+    ] ;
+    sh:property [
+        sh:path secav:endorsedObserverReport ;
+        sh:minCount 1 ;
+        sh:class secav:ObserverReport ;
+        sh:message "A remote endorsement must reference an ObserverReport — not the absence record. The ObserverReport identifies the observer and records their session findings. Without this link the endorsement is untraced and invalid."@en
+    ] ;
+    sh:property [
+        sh:path secav:correspondingAbsenceRecord ;
+        sh:minCount 1 ;
+        sh:class secav:CoachAbsenceRecord ;
+        sh:message "A remote endorsement must reference the CoachAbsenceRecord that established the designated observer for this session. Required to cross-verify that the observer who filed the report is the same person designated in the absence record."@en
+    ] ;
+    sh:sparql [
+        sh:message "The observer who filed the ObserverReport (secav:reportedBy) must match the designated observer in the corresponding CoachAbsenceRecord (secav:designatedObserver). A mismatch breaks the traceability chain and invalidates the remote endorsement."@en ;
+        sh:select """
+            PREFIX secav: <https://github.com/vlorenzana/software-engineering-coaching-framework/ontology/secav-o#>
+            SELECT $this WHERE {
+                $this secav:endorsedObserverReport ?report .
+                $this secav:correspondingAbsenceRecord ?absence .
+                ?absence secav:designatedObserver ?designated .
+                ?report secav:reportedBy ?reporter .
+                FILTER(bound(?designated) && bound(?reporter) && ?designated != ?reporter)
+            }
+        """
+    ] .
+
+secav:ObserverReportShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ObserverReport ;
+    sh:property [
+        sh:path secav:reportedBy ;
+        sh:minCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:message "An observer report must identify the designated observer who filed it — observer identity is required for the traceability chain leading to a CoachRemoteEndorsement."@en
+    ] ;
+    sh:property [
+        sh:path secav:observerReportDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "An observer report must record the date the report was filed."@en
+    ] ;
+    sh:property [
+        sh:path secav:reportedFindings ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An observer report must include a findings summary — including an explicit 'no defects found' statement when the session was clean. This is the primary basis for the coach's remote endorsement decision."@en
+    ] .
+
+secav:AIAssistedActivityShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AIAssistedActivity ;
+    sh:property [
+        sh:path secav:assistedByAI ;
+        sh:minCount 1 ;
+        sh:class secav:AISystem ;
+        sh:message "An AI-assisted activity must identify the AI system involved."@en
+    ] ;
+    sh:property [
+        sh:path secav:requiresHumanValidation ;
+        sh:minCount 1 ;
+        sh:class secav:HumanValidationActivity ;
+        sh:message "In this prototype governance profile, an AI-assisted activity must identify a human-validation activity."@en
+    ] .
+
+secav:CompetencyAssessmentShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CompetencyAssessment ;
+    sh:property [
+        sh:path secav:basedOnEvidence ;
+        sh:minCount 1 ;
+        sh:class secav:Evidence ;
+        sh:message "A competency assessment must be based on at least one item of observable evidence."@en
+    ] ;
+    sh:property [
+        sh:path secav:assessesCompetency ;
+        sh:minCount 1 ;
+        sh:class secav:Competency ;
+        sh:message "A competency assessment must identify the competency being assessed."@en
+    ] .
+
+secav:CoachingInterventionShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachingIntervention ;
+    sh:property [
+        sh:path secav:targetsCompetency ;
+        sh:minCount 1 ;
+        sh:class secav:Competency ;
+        sh:message "A coaching intervention should identify the competency it targets."@en
+    ] .
+
+secav:ReviewAntipatternShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ReviewAntipattern ;
+    sh:property [
+        sh:path secav:triggers ;
+        sh:minCount 1 ;
+        sh:class secav:CoachingIntervention ;
+        sh:message "A review antipattern should trigger at least one coaching intervention."@en
+    ] .
+
+secav:RubberStampApprovalShape
+    a sh:NodeShape ;
+    sh:targetClass secav:RubberStampApproval ;
+    sh:property [
+        sh:path secav:providesEvidenceOf ;
+        sh:minCount 1 ;
+        sh:class secav:Competency ;
+        sh:message "A rubber-stamp approval must identify the review competency gap it evidences."@en
+    ] .
+
+secav:FormalReviewRequestShape
+    a sh:NodeShape ;
+    sh:targetClass secav:FormalReviewRequest ;
+    sh:property [
+        sh:path secav:requestDescription ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A formal review request must include a description of what changed, why, and the acceptance criteria."@en
+    ] .
+
+secav:AutomationGateShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AutomationGate ;
+    sh:property [
+        sh:path secav:criterionStatement ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An automation gate must have a criterion statement describing what condition is enforced."@en
+    ] .
+
+secav:AcceptanceCriteriaDefinitionShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AcceptanceCriteriaDefinition ;
+    sh:property [
+        sh:path secav:produces ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "An acceptance criteria definition activity must produce at least one artifact (e.g., a test specification or BDD scenario document)."@en
+    ] .
+
+secav:SelfReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:SelfReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A self-review must identify the artifact the engineer evaluated before submitting the formal review request."@en
+    ] .
+
+secav:AIReviewPromptConfigurationShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AIReviewPromptConfiguration ;
+    sh:property [
+        sh:path secav:hasContextDefinition ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An AI review prompt configuration must include a context definition (step 1)."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasImpactAnalysisInstruction ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An AI review prompt configuration must include an impact analysis instruction (step 2)."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasSecurityEvaluationInstruction ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An AI review prompt configuration must include a security evaluation instruction (step 3)."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasTestGenerationInstruction ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An AI review prompt configuration must include a test generation instruction (step 4)."@en
+    ] .
+
+secav:AdoptionBehaviorShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AdoptionBehavior ;
+    sh:property [
+        sh:path secav:belongsToPillar ;
+        sh:minCount 1 ;
+        sh:class secav:AdoptionPillar ;
+        sh:message "An adoption behavior must belong to at least one adoption pillar."@en
+    ] .
+
+secav:CoachObservationShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachObservation ;
+    sh:property [
+        sh:path secav:observedDuring ;
+        sh:minCount 1 ;
+        sh:class secav:EngineeringActivity ;
+        sh:message "A coach observation must be linked to the engineering activity during which it was recorded."@en
+    ] ;
+    sh:property [
+        sh:path secav:observationStatement ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A coach observation must include a verbatim statement of what was observed."@en
+    ] .
+
+secav:LeaderBehaviorShape
+    a sh:NodeShape ;
+    sh:targetClass secav:LeaderBehavior ;
+    sh:property [
+        sh:path secav:belongsToDimension ;
+        sh:minCount 1 ;
+        sh:class secav:TechnicalLeadershipDimension ;
+        sh:message "A leader behavior must belong to at least one technical leadership dimension."@en
+    ] .
+
+secav:MeetingMinutesShape
+    a sh:NodeShape ;
+    sh:targetClass secav:MeetingMinutes ;
+    sh:property [
+        sh:path secav:hasParticipant ;
+        sh:minCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:message "Meeting minutes must record at least one participant (name and role). Minutes without participants cannot be traced to any attendee."@en
+    ] ;
+    sh:property [
+        sh:path secav:meetingTopicSummary ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Meeting minutes must record at least one topic discussed with its outcome or decision."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasAgreement ;
+        sh:minCount 1 ;
+        sh:class secav:MeetingAgreement ;
+        sh:message "Meeting minutes must record at least one agreement with an identified owner and an explicit due date."@en
+    ] .
+
+secav:MeetingAgreementShape
+    a sh:NodeShape ;
+    sh:targetClass secav:MeetingAgreement ;
+    sh:property [
+        sh:path secav:agreementOwner ;
+        sh:minCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:message "A meeting agreement must have an identified owner."@en
+    ] ;
+    sh:property [
+        sh:path secav:agreementDueDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "A meeting agreement must have an explicit due date. An agreement without a date is not a real commitment."@en
+    ] .
+
+secav:ProjectRiskShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ProjectRisk ;
+    sh:property [
+        sh:path secav:riskProbability ;
+        sh:minCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+        sh:message "A project risk must have a probability score between 1 and 5."@en
+    ] ;
+    sh:property [
+        sh:path secav:riskImpact ;
+        sh:minCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:minInclusive 1 ;
+        sh:maxInclusive 5 ;
+        sh:message "A project risk must have an impact score between 1 and 5."@en
+    ] ;
+    sh:property [
+        sh:path secav:riskOwner ;
+        sh:minCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:message "A project risk must have an identified owner."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasResponsePlan ;
+        sh:minCount 1 ;
+        sh:class secav:RiskResponsePlan ;
+        sh:message "A project risk must have at least one response plan (prevention + contingency)."@en
+    ] .
+
+secav:RiskResponsePlanShape
+    a sh:NodeShape ;
+    sh:targetClass secav:RiskResponsePlan ;
+    sh:property [
+        sh:path secav:preventionAction ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A risk response plan must describe the prevention action."@en
+    ] .
+
+secav:RequirementsReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:RequirementsReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:RequirementsArtifact ;
+        sh:message "A requirements review must identify the requirements artifact being reviewed."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:UnitTestDesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:UnitTestDesignReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:UnitTestDesignArtifact ;
+        sh:message "A unit test design review must identify the test artifact being reviewed — test code is a work product requiring individual peer review, not just CI execution."@en
+    ] .
+
+secav:CriticalUnitTestShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CriticalUnitTest ;
+    sh:property [
+        sh:path secav:requiredReviewCompetency ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewCompetency ;
+        sh:message "A critical unit test must declare the review competency it requires — it demands formal peer review (walkthrough or inspection) before merging, not only automated gate execution."@en
+    ] .
+
+secav:DesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:DesignReview ;
+    sh:property [
+        sh:path secav:designMaturityLevel ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A design review must declare the design maturity level ('exploratory', 'conceptual', or 'final') so participants frame feedback appropriately."@en
+    ] ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A design review must identify the artifact (prototype, wireframe, or specification) being evaluated."@en
+    ] .
+
+secav:CodeWalkthroughShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CodeWalkthrough ;
+    sh:property [
+        sh:path secav:walkthroughFocus ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A code walkthrough must declare its focus (e.g., 'architecture', 'logic', 'security', 'concurrency', 'knowledge-transfer')."@en
+    ] ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A code walkthrough must identify the artifact (source file, module, or PR) it reviews."@en
+    ] .
+
+secav:IntegrationTestDesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:IntegrationTestDesignReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:IntegrationTestDesignArtifact ;
+        sh:message "An integration test design review must identify the integration test artifact being reviewed."@en
+    ] .
+
+secav:SystemTestDesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:SystemTestDesignReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:SystemTestDesignArtifact ;
+        sh:message "A system test design review must identify the system test artifact being reviewed."@en
+    ] .
+
+secav:AcceptanceTestDesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AcceptanceTestDesignReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:AcceptanceTestDesignArtifact ;
+        sh:message "An acceptance test design review must identify the acceptance test artifact being reviewed."@en
+    ] .
+
+secav:UnitTestResultsReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:UnitTestResultsReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:TestExecutionResultArtifact ;
+        sh:message "A unit test results review must identify the test execution result artifact (report) being reviewed."@en
+    ] .
+
+secav:IntegrationTestResultsReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:IntegrationTestResultsReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:TestExecutionResultArtifact ;
+        sh:message "An integration test results review must identify the test execution result artifact being reviewed."@en
+    ] .
+
+secav:SystemTestResultsReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:SystemTestResultsReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:TestExecutionResultArtifact ;
+        sh:message "A system test results review must identify the test execution result artifact being reviewed."@en
+    ] .
+
+secav:AcceptanceTestResultsReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:AcceptanceTestResultsReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:TestExecutionResultArtifact ;
+        sh:message "An acceptance test results review must identify the test execution result artifact being reviewed. This is the final quality gate before production deployment."@en
+    ] .
+
+secav:HighLevelDesignReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:HighLevelDesignReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:HighLevelDesignArtifact ;
+        sh:message "A high-level design review must identify the architecture artifact being reviewed — component diagram, ADR collection, or equivalent."@en
+    ] .
+
+secav:FormalInspectionShape
+    a sh:NodeShape ;
+    sh:targetClass secav:FormalInspection ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A formal inspection must identify the artifact under inspection."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "A formal inspection must record at least one finding — including an explicit 'no defects found' record when the artifact is clean. Causal analysis of findings is required for process improvement."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:ReleaseReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ReleaseReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:ReleaseArtifact ;
+        sh:message "A release review must identify the release artifact package (release notes, deployment plan, rollback procedure) being reviewed."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "A release review must record at least one finding — including an explicit 'release approved, all quality gates confirmed' when no blocking issues remain."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:PlanningReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:PlanningReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:PlanningArtifact ;
+        sh:message "A planning review must identify the plan artifact being reviewed (sprint plan, iteration plan, or work breakdown)."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "A planning review must record at least one finding — including an explicit 'plan approved, all mandatory review activities scheduled' when requirements are met."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:DesignWalkthroughShape
+    a sh:NodeShape ;
+    sh:targetClass secav:DesignWalkthrough ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:DesignArtifact ;
+        sh:message "A design walkthrough must identify the design artifact (wireframe, prototype, diagram, or specification) being walked through."@en
+    ] ;
+    sh:property [
+        sh:path secav:walkthroughFocus ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A design walkthrough must declare its review focus (e.g., 'usability', 'architecture', 'data-model', 'interaction-flow')."@en
+    ] .
+
+secav:WalkthroughExecutionShape
+    a sh:NodeShape ;
+    sh:targetClass secav:WalkthroughExecution ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A walkthrough execution must identify the artifact being walked through in the live session."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "A walkthrough execution must record all findings captured during the live session — including an explicit 'no defects found' record when the artifact is clean."@en
+    ] .
+
+secav:WalkthroughReviewShape
+    a sh:NodeShape ;
+    sh:targetClass secav:WalkthroughReview ;
+    sh:property [
+        sh:path secav:evaluates ;
+        sh:minCount 1 ;
+        sh:class secav:Artifact ;
+        sh:message "A walkthrough review must identify the artifact whose findings are being verified — the same artifact reviewed in the walkthrough execution."@en
+    ] ;
+    sh:property [
+        sh:path secav:producesReviewFinding ;
+        sh:minCount 1 ;
+        sh:class secav:ReviewFinding ;
+        sh:message "A walkthrough review must record the follow-up state of each finding from the walkthrough execution — confirming corrections were adequate or flagging remaining issues."@en
+    ] ;
+    sh:node secav:ReviewCertifiedShape .
+
+secav:CoachAbsenceRecordShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachAbsenceRecord ;
+    sh:property [
+        sh:path secav:absenceReason ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A coach absence record must state the reason for absence. Undocumented absence provides no basis for determining what occurred in the session."@en
+    ] ;
+    sh:property [
+        sh:path secav:absenceConsequence ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A coach absence record must document the consequence: for review activities 'no sign-off issued, findings provisional unless remote endorsement is issued'; for other activities 'no observation recorded'."@en
+    ] ;
+    sh:property [
+        sh:path secav:designatedObserver ;
+        sh:maxCount 1 ;
+        sh:class secav:Stakeholder ;
+        sh:severity sh:Warning ;
+        sh:message "A coach absence record for a critical or review session should identify the designated observer. Without a named observer, no ObserverReport can be filed and no CoachRemoteEndorsement can be issued."@en
+    ] ;
+    sh:property [
+        sh:path secav:hasObserverReport ;
+        sh:maxCount 1 ;
+        sh:class secav:ObserverReport ;
+        sh:severity sh:Warning ;
+        sh:message "When a designated observer was named, an ObserverReport should be linked to this absence record. Without it, the traceability chain required for a CoachRemoteEndorsement is incomplete."@en
+    ] .
+
+# CoachingRecommendation — advisory finding; must be described so it can be tracked and evaluated
+secav:CoachingRecommendationShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachingRecommendation ;
+    sh:property [
+        sh:path secav:findingDescription ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Every coaching recommendation must include a description of the suggested improvement. Without a description the recommendation cannot be tracked, evaluated, or referenced in the management report."@en
+    ] .
+
+# ProcessComplianceFinding — must cite the specific process requirement it references
+secav:ProcessComplianceFindingShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ProcessComplianceFinding ;
+    sh:property [
+        sh:path secav:referencedProcessRequirement ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A process compliance finding must reference the specific process document, standard, checklist section, or acceptance criterion that was violated. A finding without a cited requirement cannot be distinguished from a personal preference and has no authority to compel a change."@en
+    ] ;
+    sh:property [
+        sh:path secav:findingDescription ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A process compliance finding must include a description of the observed deviation from the referenced requirement."@en
+    ] .
+
+# DesignConsultation — qualification check and domain must be documented
+secav:DesignConsultationShape
+    a sh:NodeShape ;
+    sh:targetClass secav:DesignConsultation ;
+    sh:property [
+        sh:path secav:consultationDomain ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "Every design consultation must record the design domain or technology area the engineer's question concerned. This is required to verify that the coach's response fell within their declared consulting scope."@en
+    ] ;
+    sh:property [
+        sh:path secav:coachQualified ;
+        sh:minCount 1 ;
+        sh:datatype xsd:boolean ;
+        sh:message "Every design consultation must record whether the coach determined they were qualified to answer. If false, a knowledge gap must be documented in the coaching log and management report."@en
+    ] .
+
+# CoachConsultingScope — must declare at least one domain and a declaration date
+secav:CoachConsultingScopeShape
+    a sh:NodeShape ;
+    sh:targetClass secav:CoachConsultingScope ;
+    sh:property [
+        sh:path secav:consultingDomain ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A coach consulting scope declaration must list at least one domain of qualified competence."@en
+    ] ;
+    sh:property [
+        sh:path secav:scopeDeclarationDate ;
+        sh:minCount 1 ;
+        sh:datatype xsd:date ;
+        sh:message "A coach consulting scope declaration must carry the date it was last reviewed and confirmed."@en
+    ] .
+
+# ---------------------------------------------------------------------------
+# Pessimistic Defect Prevention Shapes
+# ---------------------------------------------------------------------------
+
+# PreMortemReport — must carry the participant's failure-cause list
+secav:PreMortemReportShape
+    a sh:NodeShape ;
+    sh:targetClass secav:PreMortemReport ;
+    sh:property [
+        sh:path secav:findingDescription ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A Pre-Mortem Report must include a consolidated description of the hypothetical failure causes identified independently by each participant. Without this record the session produces no persistent evidence."@en
+    ] .
+
+# FMEARegister — each entry must have a failure mode and at least the RPN score
+secav:FMEARegisterShape
+    a sh:NodeShape ;
+    sh:targetClass secav:FMEARegister ;
+    sh:property [
+        sh:path secav:failureMode ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "An FMEA Register must document at least one failure mode. An FMEA with no failure mode entries is an empty artifact with no analytical value."@en
+    ] ;
+    sh:property [
+        sh:path secav:rpnScore ;
+        sh:minCount 1 ;
+        sh:datatype xsd:integer ;
+        sh:message "An FMEA Register must include at least one RPN score (S × O × D). Without a quantified priority score, high-risk failure modes cannot be distinguished from low-risk ones and resilience pattern selection is arbitrary."@en
+    ] .
+
+# ThreatModel — must identify at least one threat and the attack surface
+secav:ThreatModelShape
+    a sh:NodeShape ;
+    sh:targetClass secav:ThreatModel ;
+    sh:property [
+        sh:path secav:findingDescription ;
+        sh:minCount 1 ;
+        sh:datatype xsd:string ;
+        sh:message "A Threat Model must document at least one identified threat with its STRIDE category and the planned control. An empty threat model does not fulfil the purpose of the ThreatModelingActivity."@en
+    ] .
