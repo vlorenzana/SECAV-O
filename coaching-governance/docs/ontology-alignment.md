@@ -82,7 +82,7 @@ The guide `coaching-governance/guides/ai-assisted-code-review.md` introduces ope
 | `aiPrimaryForDimension` | ObjectProperty: `AISystem` → `ReviewDimension` | Records which dimensions the AI system was primarily responsible for in a given review pass. |
 | `humanPrimaryForDimension` | ObjectProperty: `HumanValidationActivity` → `ReviewDimension` | Records which dimensions required primary human judgment. |
 | `AIReviewPromptConfiguration` | subclass of `QualityActivityRequirement` | The 4-step prompt configuration (context → impact → security → tests) is a precondition for a valid AI review pass. |
-| `ReviewRiskLevel` | DataProperty on `EngineeringActivity` (values: Routine / Attention / SecurityCritical) | PR risk classification determines the review path and whether `requiresHumanValidation` is mandatory. |
+| `reviewRiskLevel` | DataProperty on `EngineeringActivity` (values: Routine / Attention / SecurityCritical) | PR risk classification determines the review path and whether `requiresHumanValidation` is mandatory. |
 | `ReviewEscapeObservation` | subclass of `DefectObservation` → `MeasurementObservation` → `Evidence` | A high-risk PR incorrectly cleared at a lower tier is a measurable defect in the review process. |
 | `DeterministicAnalysisActivity` | subclass of `EngineeringActivity` | Linters, type checkers, secret scanners and static analysis tools execute before the AI review pass. |
 | `ContinuousIntegrationActivity` | subclass of `EngineeringActivity` | CI (tests, integration checks) runs after human review; it is the final pipeline stage before merge. |
@@ -93,7 +93,7 @@ The review pipeline stages are ordered via `secav:precedes`:
 
 `AIReviewPromptConfiguration` is attached to the `AIAssistedActivity` that performs the review pass as a `QualityActivityRequirement`, not to the code-generation activity. This preserves the boundary between generation and review in the ontology.
 
-`ReviewRiskLevel = SecurityCritical` is the trigger condition for `requiresHumanValidation`; the other levels do not remove human review but reduce its mandatory scope.
+`reviewRiskLevel = SecurityCritical` is the trigger condition for `requiresHumanValidation`; the other levels do not remove human review but reduce its mandatory scope.
 
 ## Version 8 — Reviewer readiness and cognitive preparation alignment
 

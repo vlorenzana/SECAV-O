@@ -31,6 +31,7 @@ ex:CriterionModifiability
 ex:DesignReview01
     a secav:DesignReview, secav:HumanValidationActivity ;
     secav:requiresCompetency ex:ReviewCompetency01 ;
+    secav:designMaturityLevel "conceptual" ;
     secav:evaluates ex:DesignArtifact01 ;
     secav:produces ex:ReviewRecord01 ;
     secav:producesReviewFinding ex:Finding01 ;
@@ -70,6 +71,7 @@ ex:CoachingIntervention01
 ex:DesignReview02
     a secav:DesignReview, secav:HumanValidationActivity ;
     secav:requiresCompetency ex:ReviewCompetency01 ;
+    secav:designMaturityLevel "conceptual" ;
     secav:evaluates ex:DesignArtifact01 ;
     secav:producesReviewFinding ex:Finding02 ;
     secav:hasRemoteEndorsement ex:RemoteEndorsement01 .

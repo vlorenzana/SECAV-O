@@ -20,7 +20,7 @@ secavo:RiskShape a sh:NodeShape ;
   sh:targetClass secavo:Risk ;
   sh:property [ sh:path secavo:riskProbability ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
   sh:property [ sh:path secavo:riskImpact ; sh:minCount 1 ; sh:maxCount 1 ; sh:datatype xsd:decimal ; sh:minInclusive 0 ; sh:maxInclusive 1 ] ;
-  sh:property [ sh:path secavo:hasPreventiveAction ; sh:minCount 1 ; sh:class secavo:PreventiveAction ] ;
+  sh:property [ sh:path secavo:hasPreventiveAction ; sh:minCount 1 ; sh:class secav:PreventiveAction ] ;
   sh:property [ sh:path secavo:hasCorrectiveAction ; sh:minCount 1 ; sh:class secavo:CorrectiveAction ] .
 
 secavo:SprintRetrospectiveShape a sh:NodeShape ;

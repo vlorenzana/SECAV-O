@@ -2,7 +2,7 @@ extension_term,core_term_or_parent,alignment_type,purpose
 Baseline,Evidence,rdfs:subClassOf,Initial comparison evidence
 MeasurementObservation,Evidence,rdfs:subClassOf,Measured observable evidence
 DefectObservation,MeasurementObservation,rdfs:subClassOf,Defect-specific evidence
-ReviewObservation,MeasurementObservation,rdfs:subClassOf,Peer review or inspection evidence
+ReviewMeasurementObservation,MeasurementObservation,rdfs:subClassOf,Peer review or inspection measurement evidence
 UnitTestObservation,MeasurementObservation,rdfs:subClassOf,Unit testing evidence
 CompetencyTrend,Evidence,rdfs:subClassOf,Longitudinal competency evidence
 ImprovementAction,CoachingIntervention,rdfs:subClassOf,Targeted improvement/coaching action

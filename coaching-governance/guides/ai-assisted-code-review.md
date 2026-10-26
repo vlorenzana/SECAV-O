@@ -228,8 +228,8 @@ The risk triage table (section 3.4) classifies PRs before routing. Each classifi
 
 | Concept | SECAV-O term |
 |---|---|
-| Risk level assigned to a PR | `secav:ReviewRiskLevel` (DataProperty on `secav:EngineeringActivity`; values: `Routine`, `Attention`, `SecurityCritical`) |
-| Mandatory human review gate | `secav:requiresHumanValidation` (already defined; triggered when `ReviewRiskLevel = SecurityCritical`) |
+| Risk level assigned to a PR | `secav:reviewRiskLevel` (DataProperty on `secav:EngineeringActivity`; values: `Routine`, `Attention`, `SecurityCritical`) |
+| Mandatory human review gate | `secav:requiresHumanValidation` (already defined; triggered when `reviewRiskLevel = SecurityCritical`) |
 | False negative — high-risk PR cleared at lower tier | `secav:ReviewEscapeObservation` (subclass of `secav:DefectObservation` → `secav:MeasurementObservation`) |
 
 ### 6.5 Review pipeline stages
@@ -259,7 +259,7 @@ secav:AIAssistedActivity (code generation)
           → secav:HumanValidationActivity (ReviewDimension = BusinessLogic / Security)
             → secav:ReviewFinding → secav:ReviewRecord (Evidence)
               → secav:AcceptanceCriterion
-                → secav:ReviewRiskLevel → merge decision
+                → secav:reviewRiskLevel → merge decision
 ```
 
 This chain ensures that every AI-generated artifact that reaches production has a verifiable human validation record in the SECAV-O evidence model.

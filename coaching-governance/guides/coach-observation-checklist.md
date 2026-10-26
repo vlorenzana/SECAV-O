@@ -241,7 +241,7 @@ This checklist allows the coach to record, during any observation session, the p
 | 8.2 | ✓ | The team configures the AI tool with project context (framework, version, security conventions) | `secav:AIReviewPromptConfiguration` with `secav:hasContextDefinition` |
 | 8.3 | ✓ | The configuration includes impact analysis, security evaluation, and test case generation | `secav:hasImpactAnalysisInstruction`, `secav:hasSecurityEvaluationInstruction`, `secav:hasTestGenerationInstruction` |
 | 8.4 | ✓ | Reviewers audit AI suggestions before applying them — verifying that methods exist in the version in use | `secav:HumanValidationActivity` active |
-| 8.5 | ✓ | AI-generated code PRs are classified by risk before routing (routine / attention / critical) | `secav:ReviewRiskLevel` |
+| 8.5 | ✓ | AI-generated code PRs are classified by risk before routing (routine / attention / critical) | `secav:reviewRiskLevel` |
 | 8.6 | ✓ | The team monitors false negatives — high-risk PRs that passed as routine | `secav:ReviewObservation` |
 | 8.7 | ⚠ | The team accepts AI suggestions without critical review — does not verify that proposed methods exist | `secav:InsufficientAICodeScrutiny` |
 | 8.8 | ⚠ | AI is used to approve or block changes autonomously, without human review | violation of `secav:requiresHumanValidation` |

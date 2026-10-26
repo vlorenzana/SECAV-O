@@ -519,7 +519,7 @@ secav:ReviewObservation a owl:Class ;
 
 # § Risk-Based Triage — classification and escape tracking.
 
-secav:ReviewRiskLevel a owl:DatatypeProperty ;
+secav:reviewRiskLevel a owl:DatatypeProperty ;
     rdfs:domain secav:EngineeringActivity ;
     rdfs:range xsd:string ;
     rdfs:label "review risk level"@en ;
@@ -550,7 +550,7 @@ secav:precedes a owl:ObjectProperty ;
 
 # ---------------------------------------------------------------------------
 # Organizational Change Adoption
-# Derived from: coaching-governance/guides/ (Conductas Observables - Cambio Organizacional)
+# Derived from: coaching-governance/guides/ (Observable Behaviors - Organizational Change)
 # Models the five adoption pillars, the seven observable adoption behaviors,
 # adoption measurement methods, and the ChangeAgent stakeholder role.
 # ---------------------------------------------------------------------------
@@ -744,7 +744,7 @@ secav:triggersIntervention a owl:ObjectProperty ;
 
 # ---------------------------------------------------------------------------
 # Technical Leadership Behaviors
-# Derived from: Guía de Buenos Comportamientos para Líderes de Desarrollo
+# Derived from: Good Behaviors Guide for Development Leaders
 # Models the three strategic dimensions, six essential behaviors, and four
 # evaluation indicators for Engineering Managers and Tech Leads.
 # ---------------------------------------------------------------------------
@@ -924,7 +924,7 @@ secav:meetingTopicSummary a owl:DatatypeProperty ;
 
 # ---------------------------------------------------------------------------
 # Software Project Risk Management
-# Derived from: Software Development Risk Register (Gestión de Riesgos de Software)
+# Derived from: Software Development Risk Register (Software Risk Management)
 # Models the four risk categories, the P×I evaluation matrix (scales 1–5),
 # the four response strategies, the risk response plan, and the risk register
 # artifact. Risks with P×I ≥ 12 require an active prevention plan.
@@ -1257,7 +1257,7 @@ secav:BrittleTest a owl:Class ;
 
 # ---------------------------------------------------------------------------
 # Code Walkthrough
-# Derived from: Guia de Buenas y Malas Practicas - Caminatas de Revision de Software
+# Derived from: Good and Bad Practices Guide - Software Review Walkthroughs
 # ---------------------------------------------------------------------------
 
 secav:Walkthrough a owl:Class ;
@@ -1349,10 +1349,10 @@ secav:walkthroughSeverity a owl:DatatypeProperty ;
 
 # ---------------------------------------------------------------------------
 # Design Review
-# Derived from: Guia de Mejores Practicas para Revision de Diseno
+# Derived from: Best Practices Guide for Design Review
 # ---------------------------------------------------------------------------
 
-# secav:DesignReview is declared on line 27 with full rdfs:comment and both superclasses (ReviewActivity, DesignActivity).
+# secav:DesignReview is declared in the core activity hierarchy (top of file) with full rdfs:comment and both superclasses (ReviewActivity, DesignActivity).
 
 secav:DesignReviewAntipattern a owl:Class ;
     rdfs:subClassOf secav:ReviewAntipattern ;
@@ -1412,7 +1412,7 @@ secav:mandatoryForLaunch a owl:DatatypeProperty ;
     rdfs:comment "True if the finding represents a change indispensable before product launch; false if it is an optional improvement for future iterations."@en .
 
 # Additional DesignReviewAntipatterns
-# Derived from: Guia de Malas Practicas para Revision de Diseno
+# Derived from: Bad Practices Guide for Design Review
 
 secav:DesignAmbush a owl:Class ;
     rdfs:subClassOf secav:DesignReviewAntipattern ;
@@ -1467,14 +1467,14 @@ secav:ReopeningClosedDebates a owl:Class ;
 # ---------------------------------------------------------------------------
 # Development Lifecycle — Full 22-Phase Model
 # Phases already modeled elsewhere in this ontology:
-#   Phase  1  secav:RequirementsActivity  (line 18)
-#   Phase  2  secav:RequirementsReview    (Requirements section)
-#   Phase  3  secav:ApplicationDesign     (line 24) / secav:DesignActivity (line 19)
-#   Phase  4  secav:DesignReview          (line 27)
-#   Phase  5  secav:UnitTestDesign        (line 25) / secav:UnitTestDesignImplementation (line 28)
-#   Phase  6  secav:UnitTestDesignReview  (line 29)
-#   Phase 13  secav:CodeImplementation    (line 30)
-#   Phase 14  secav:CodeReview            (line 31)
+#   Phase  1  secav:RequirementsActivity  (core activity hierarchy)
+#   Phase  2  secav:RequirementsReview    (Requirements artifacts section)
+#   Phase  3  secav:ApplicationDesign / secav:DesignActivity (core activity hierarchy)
+#   Phase  4  secav:DesignReview          (core activity hierarchy)
+#   Phase  5  secav:UnitTestDesign / secav:UnitTestDesignImplementation (core activity hierarchy)
+#   Phase  6  secav:UnitTestDesignReview  (core activity hierarchy)
+#   Phase 13  secav:CodeImplementation    (core activity hierarchy)
+#   Phase 14  secav:CodeReview            (core activity hierarchy)
 # Phases added in this section: 7-12 (test design + review) and 15-22 (execution + results review).
 # ---------------------------------------------------------------------------
 
@@ -1644,7 +1644,7 @@ secav:HighLevelDesignReview a owl:Class ;
 secav:PeerReview a owl:Class ;
     rdfs:subClassOf secav:ReviewActivity ;
     rdfs:label "Peer Review"@en ;
-    rdfs:comment "A synchronous or asynchronous review method in which one or two peers examine a work product and record findings. Less formal than a walkthrough or inspection but still requires documented findings and coach sign-off. Specializations include CodeReview (source code), UnitTestDesignReview (test code), DesignReview (design artifacts), RequirementsReview (requirements), and HighLevelDesignReview (architecture). Suitable for lower-criticality artifacts or when time constraints prevent a full walkthrough."@en .
+    rdfs:comment "A synchronous or asynchronous review method in which one or two peers examine a work product and record findings. Less formal than a walkthrough or inspection but still requires documented findings and coach sign-off. A review method, not a lifecycle phase: phase-specific reviews such as CodeReview (source code), UnitTestDesignReview (test code), DesignReview (design artifacts), RequirementsReview (requirements), and HighLevelDesignReview (architecture) may be conducted as a peer review; they are not declared as subclasses of PeerReview. Suitable for lower-criticality artifacts or when time constraints prevent a full walkthrough."@en .
 
 secav:FormalInspection a owl:Class ;
     rdfs:subClassOf secav:ReviewActivity ;
@@ -1831,7 +1831,7 @@ secav:hasObserverReport a owl:ObjectProperty ;
 
 # ---------------------------------------------------------------------------
 # Pessimistic Defect Prevention Techniques
-# Derived from: Prevención de Defectos Basada en Escenarios Pesimistas
+# Derived from: Defect Prevention Based on Pessimistic Scenarios
 # ---------------------------------------------------------------------------
 
 # § Parent activity class
