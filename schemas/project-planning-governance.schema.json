@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://example.org/secav-o/schema/project-planning-governance.schema.json",
+  "$id": "https://github.com/vlorenzana/SECAV-O/blob/main/schemas/project-planning-governance.schema.json",
   "title": "SECAV-O Project Planning Quality Governance",
   "type": "object",
   "required": ["project", "planning_event", "coach_participation", "quality_activities", "decision"],
