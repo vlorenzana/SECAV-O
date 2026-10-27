@@ -24,7 +24,7 @@ All notable changes to SECAV-O are documented in this file.
 ### Changed
 
 - Aligned the framework with a stable SECAV-O ontology namespace and explicit `owl:imports` declarations.
-- Clarified distinctions between coaching-programme risk and project risk, and between evidence/measurement and coaching intervention concepts.
+- Clarified distinctions between coaching-program risk and project risk, and between evidence/measurement and coaching intervention concepts.
 - Expanded the model to include explicit participant-role traceability for review sessions.
 - Updated coaching lifecycle documentation to reflect the current operational model and artifact taxonomy.
 
@@ -55,7 +55,7 @@ All notable changes to SECAV-O are documented in this file.
 - Corrected core-class references and SHACL `sh:class` declarations.
 - Fixed README, glossary, and citation metadata inconsistencies.
 
-## [0.1.0] - 2026-09-xx
+## [0.1.0] - 2026-10-02
 
 ### Added
 
