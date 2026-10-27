@@ -28,7 +28,7 @@ This repository extends the core SECAV-O ontology with a coaching governance lay
 
 ## Overview
 
-SECAV-O connects software-engineering activities, artifacts, competencies, evidence, AI assistance, human validation, and coaching interventions in a single conceptual model. The framework is designed to make coaching practices traceable to observable evidence and to support explicit review, planning, governance, and quality decisions.
+SECAV-O connects software-engineering activities, artifacts, competencies, evidence, AI assistance, human validation, and coaching interventions in a single conceptual model. The framework is designed to support real engineering work, observable improvement, and accountable coaching decisions without reducing quality to abstract metrics alone.
 
 The repository includes:
 
@@ -71,6 +71,24 @@ The ontology layer is the backbone of the framework.
 
 These files model engineering activities, artifacts, competencies, evidence, measurement, coaching interventions, review outcomes, AI assistance, and human validation.
 
+### Example ontology view
+
+This diagram illustrates the core conceptual pattern used throughout SECAV-O:
+
+```mermaid
+flowchart LR
+    A[Engineering Activity] -->|produces| B[Artifact]
+    A -->|requires| C[Competency]
+    A -->|assessed against| D[Acceptance Criterion]
+    B -->|yields| E[Evidence]
+    E -->|supports| F[Competency Assessment]
+    F -->|triggers| G[Coaching Intervention]
+    G -->|improves| C
+    D -->|validates| B
+```
+
+The intent is to keep coaching tied to actual engineering work, actionable evidence, and competency growth instead of treating metrics or opinions as substitutes for observed outcomes.
+
 ## Governance and operating model
 
 The governance material defines how coaching works in practice across teams, plans, risks, ethics, and quality decisions.
@@ -99,69 +117,30 @@ The governance material defines how coaching works in practice across teams, pla
 
 ### Glossary
 
-- [`coaching-governance/glossary/glossary.md`](coaching-governance/glossary/glossary.md)
+- [`coaching-governance/glossary/glossary.md`](coaching-governance/glossary/glossary.md) — authoritative definitions for the concepts used in the framework
 
 ## Templates and examples
 
-### Templates
-
-The repository includes reusable planning, assessment, and governance templates:
-
 - [`templates/annual-coaching-plan.md`](templates/annual-coaching-plan.md)
 - [`templates/coaching-sprint-plan.md`](templates/coaching-sprint-plan.md)
-- [`templates/sprint-retrospective.md`](templates/sprint-retrospective.md)
-- [`templates/team-launch-coaching-plan.md`](templates/team-launch-coaching-plan.md)
-- [`templates/member-preparation-checklist.md`](templates/member-preparation-checklist.md)
-- [`templates/new-member-onboarding.md`](templates/new-member-onboarding.md)
+- [`templates/engineer-development-record.md`](templates/engineer-development-record.md)
+- [`templates/coach-meeting-minutes.md`](templates/coach-meeting-minutes.md)
 - [`templates/risk-register.csv`](templates/risk-register.csv)
 - [`templates/defect-log.csv`](templates/defect-log.csv)
-- [`templates/competency-trend.csv`](templates/competency-trend.csv)
-- [`templates/coach-committee-charter.md`](templates/coach-committee-charter.md)
-- [`templates/coach-ethics-acknowledgement.md`](templates/coach-ethics-acknowledgement.md)
-- [`templates/engineer-development-record.md`](templates/engineer-development-record.md)
-
-### Worked examples
-
+- [`templates/metrics-register.csv`](templates/metrics-register.csv)
 - [`examples/design-review.ttl`](examples/design-review.ttl)
-- [`examples/java-standard-deviation-exercise.ttl`](examples/java-standard-deviation-exercise.ttl)
 - [`examples/example-coaching-sprint.yaml`](examples/example-coaching-sprint.yaml)
-- [`examples/example-team-launch-and-onboarding.yaml`](examples/example-team-launch-and-onboarding.yaml)
-- [`examples/example-quality-planning-escalation.yaml`](examples/example-quality-planning-escalation.yaml)
 - [`examples/example-engineer-development-record.md`](examples/example-engineer-development-record.md)
-
-### Schemas
-
-- [`schemas/project-planning-governance.schema.json`](schemas/project-planning-governance.schema.json)
-- [`schemas/team-coaching-lifecycle.schema.json`](schemas/team-coaching-lifecycle.schema.json)
-- [`schemas/coaching-sprint.schema.json`](schemas/coaching-sprint.schema.json)
 
 ## Learning exercises
 
-The repository includes structured learning exercises to practice engineering and review skills with explicit competency targets and deliverables.
-
-- [`exercises/java-standard-deviation/`](exercises/java-standard-deviation/)
 - [`exercises/java-standard-deviation/README.md`](exercises/java-standard-deviation/README.md)
-
-## Changelog
-
-See [`CHANGELOG.md`](CHANGELOG.md) for the release history and notable changes.
+- [`examples/java-standard-deviation-exercise.ttl`](examples/java-standard-deviation-exercise.ttl)
 
 ## Citing the project
 
-This project is cited via [`CITATION.cff`](CITATION.cff).
+If you use SECAV-O in research, training, or practice, cite the repository metadata in [`CITATION.cff`](CITATION.cff).
 
 ## License
 
-This project is licensed under the MIT License. See [`LICENSE`](LICENSE).
-
-## Status
-
-This repository represents an experimental but structured ontology-supported framework for engineering coaching, AI-assisted validation, and governance. It is intended as a practical model and reference set rather than as a claimed universal standard or third-party certification.
-
----
-
-For a detailed conceptual overview, review the ontology and governance documents in this repository, starting with:
-
-- [`ontology/secav-o.ttl`](ontology/secav-o.ttl)
-- [`coaching-governance/docs/coaching-cycle.md`](coaching-governance/docs/coaching-cycle.md)
-- [`coaching-governance/glossary/glossary.md`](coaching-governance/glossary/glossary.md)
+This project is licensed under the [MIT License](LICENSE).
