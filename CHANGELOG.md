@@ -2,6 +2,11 @@
 
 All notable changes to SECAV-O are documented in this file.
 
+Releases 0.1.0 through 0.3.0 were developed in an earlier working repository
+that is not public. Their content was imported into this repository on
+October 25, 2026, so the Git history of this repository begins on that date.
+The release dates below are the dates of the original releases.
+
 ## [Unreleased]
 
 ### Documentation and repository consistency
@@ -10,6 +15,7 @@ All notable changes to SECAV-O are documented in this file.
 - Corrected stale naming, legacy namespace references, and outdated public labels.
 - Consolidated the project-level notes around the current ontology, validation, governance, and example files.
 - Improved the README and release notes to better reflect the framework's current structure and maturity.
+- Updated `CITATION.cff` and release metadata to match the public repository URL and identity.
 
 ## [0.3.0] - 2026-10-22
 
@@ -35,13 +41,12 @@ All notable changes to SECAV-O are documented in this file.
 - Corrected stale ontology references, invalid class/property names, and documentation mismatches.
 - Fixed SHACL and ontology inconsistencies affecting review, risk, and pre-mortem/threat-model artifacts.
 - Corrected typos and stale references in glossary, examples, and validation metadata.
-- Updated `CITATION.cff` and release metadata to match the repository versioning and public identity.
 
 ## [0.2.0] - 2026-10-07
 
 ### Added
 
-- Formal coaching governance extension for project-planning participation, quality advocacy, dissent and escalation, annual planning, sprint planning, risk management, metrics, ethics, and alignment.
+- Formal coaching governance extension for project-planning participation, quality advocacy, dissent and escalation, annual planning, sprint planning, risk management, metrics, ethics, and alignme[...]
 - Governance documents for coach role profile, team lifecycle, institutional alignment, and coaching cycle.
 - Core extension artifacts, schemas, and templates for onboarding, sprint planning, retrospectives, and risk review.
 - Supporting examples and machine-readable records for planning and risk governance.
