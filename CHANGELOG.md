@@ -46,7 +46,7 @@ The release dates below are the dates of the original releases.
 
 ### Added
 
-- Formal coaching governance extension for project-planning participation, quality advocacy, dissent and escalation, annual planning, sprint planning, risk management, metrics, ethics, and alignme[...]
+- Formal coaching governance extension for project-planning participation, quality advocacy, dissent and escalation, annual planning, sprint planning, risk management, metrics, ethics, and alignment.
 - Governance documents for coach role profile, team lifecycle, institutional alignment, and coaching cycle.
 - Core extension artifacts, schemas, and templates for onboarding, sprint planning, retrospectives, and risk review.
 - Supporting examples and machine-readable records for planning and risk governance.
