@@ -6,6 +6,7 @@ Releases 0.1.0 through 0.3.0 were developed in an earlier working repository
 that is not public. Their content was imported into this repository on
 October 25, 2026, so the Git history of this repository begins on that date.
 The release dates below are the dates of the original releases.
+The date of release 0.1.0 was corrected from 2026-09-01 to 2026-09-30, the date of the first commit in the earlier working repository.
 
 ## [Unreleased]
 
@@ -64,7 +65,7 @@ The release dates below are the dates of the original releases.
 - Corrected core-class references and SHACL `sh:class` declarations.
 - Fixed inconsistencies in the README, glossary, and citation metadata.
 
-## [0.1.0] - 2026-09-01
+## [0.1.0] - 2026-09-30
 
 ### Added
 
